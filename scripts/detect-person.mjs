@@ -28,15 +28,15 @@ const home = process.env["HOME"] ?? os.homedir();
 
 function resolveOdIndex() {
   const candidates = [
-    path.join(home, ".agenticros/plugin-deploy/node_modules/@agenticros/object-detection/dist/index.js"),
-    path.resolve(here, "../../agenticros/packages/object-detection/dist/index.js"),
-    path.resolve(here, "../node_modules/@agenticros/object-detection/dist/index.js"),
+    path.join(home, ".synapse/plugin-deploy/node_modules/@corebrum/object-detection/dist/index.js"),
+    path.resolve(here, "../../synapse/packages/object-detection/dist/index.js"),
+    path.resolve(here, "../node_modules/@corebrum/object-detection/dist/index.js"),
   ];
   for (const c of candidates) {
     if (fs.existsSync(c)) return c;
   }
   throw new Error(
-    `Could not find @agenticros/object-detection dist/index.js. Tried:\n${candidates.join("\n")}`,
+    `Could not find @corebrum/object-detection dist/index.js. Tried:\n${candidates.join("\n")}`,
   );
 }
 

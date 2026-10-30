@@ -1,5 +1,5 @@
 /**
- * Color-camera person watch via YOLOv8n (shared @agenticros/object-detection).
+ * Color-camera person watch via YOLOv8n (shared @corebrum/object-detection).
  * Subscribes to a CompressedImage/Image topic and runs detection at personHz.
  *
  * Under OpenClaw, in-process onnxruntime-node/sharp are remapped to other
@@ -13,8 +13,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import type { RosTransport, Subscription } from "@agenticros/core";
-import type { PersonDetection } from "@agenticros/object-detection";
+import type { RosTransport, Subscription } from "@corebrum/core";
+import type { PersonDetection } from "@corebrum/object-detection";
 import { sideFromNormX, type PresenceReading } from "./gate.js";
 import type { Side } from "./range.js";
 
@@ -73,9 +73,9 @@ function packageCandidates(pkgName: "object-detection" | "ros-camera"): string[]
   const here = path.dirname(fileURLToPath(import.meta.url));
   const home = process.env["HOME"] ?? "";
   return [
-    path.join(home, ".agenticros/plugin-deploy/node_modules/@agenticros", pkgName, "dist/index.js"),
-    path.resolve(here, "../../agenticros/packages", pkgName, "dist/index.js"),
-    path.resolve(here, "../node_modules/@agenticros", pkgName, "dist/index.js"),
+    path.join(home, ".synapse/plugin-deploy/node_modules/@synapse", pkgName, "dist/index.js"),
+    path.resolve(here, "../../synapse/packages", pkgName, "dist/index.js"),
+    path.resolve(here, "../node_modules/@synapse", pkgName, "dist/index.js"),
   ];
 }
 
@@ -97,7 +97,7 @@ async function loadWorkspacePackage<T>(
     errors.push(err instanceof Error ? err.message : String(err));
   }
   throw new Error(
-    `Could not load @agenticros/${pkgName}. Tried deploy/workspace paths and bare import. Last: ${errors.at(-1) ?? "unknown"}`,
+    `Could not load @corebrum/${pkgName}. Tried deploy/workspace paths and bare import. Last: ${errors.at(-1) ?? "unknown"}`,
   );
 }
 
@@ -105,7 +105,7 @@ async function loadRosCamera(opts: PersonWatchOptions): Promise<RosCameraMod> {
   if (opts.loadRosCamera) {
     return (await opts.loadRosCamera()) as RosCameraMod;
   }
-  return loadWorkspacePackage<RosCameraMod>("@agenticros/ros-camera", "ros-camera");
+  return loadWorkspacePackage<RosCameraMod>("@corebrum/ros-camera", "ros-camera");
 }
 
 function findDetectScript(skillRoot?: string): string {
@@ -119,21 +119,21 @@ function findDetectScript(skillRoot?: string): string {
     push(path.resolve(skillRoot, "scripts/detect-person.mjs"));
     push(path.resolve(skillRoot, "dist/scripts/detect-person.mjs"));
   }
-  if (process.env["AGENTICROS_HALLOWEEN_ROOT"]) {
-    push(path.resolve(process.env["AGENTICROS_HALLOWEEN_ROOT"], "scripts/detect-person.mjs"));
+  if (process.env["SYNAPSE_HALLOWEEN_ROOT"]) {
+    push(path.resolve(process.env["SYNAPSE_HALLOWEEN_ROOT"], "scripts/detect-person.mjs"));
   }
   // Built skill / capture: dist/ -> ../scripts/ (and dist/scripts/ copy)
   push(path.resolve(here, "../scripts/detect-person.mjs"));
   push(path.resolve(here, "scripts/detect-person.mjs"));
   push(path.resolve(here, "../../scripts/detect-person.mjs"));
-  // Walk up from this module looking for package.json of @agenticros/halloween.
+  // Walk up from this module looking for package.json of @corebrum/halloween.
   let dir = here;
   for (let i = 0; i < 6; i++) {
     const pkgPath = path.join(dir, "package.json");
     if (fs.existsSync(pkgPath)) {
       try {
         const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8")) as { name?: string };
-        if (pkg.name === "@agenticros/halloween") {
+        if (pkg.name === "@corebrum/halloween") {
           push(path.join(dir, "scripts/detect-person.mjs"));
           push(path.join(dir, "dist/scripts/detect-person.mjs"));
           break;
@@ -157,7 +157,7 @@ function findDetectScript(skillRoot?: string): string {
 function sharpLibvipsDir(): string | null {
   const pnpm = path.join(
     process.env["HOME"] ?? os.homedir(),
-    ".agenticros/plugin-deploy/node_modules/.pnpm",
+    ".synapse/plugin-deploy/node_modules/.pnpm",
   );
   if (!fs.existsSync(pnpm)) return null;
   for (const name of fs.readdirSync(pnpm)) {

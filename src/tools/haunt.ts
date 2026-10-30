@@ -1,5 +1,5 @@
 import { Type } from "@sinclair/typebox";
-import type { AgenticROSConfig } from "@agenticros/core";
+import type { SynapseConfig } from "@corebrum/core";
 import type { SkillContext, SkillPluginApi } from "../types.js";
 import { formatHauntStatus, getHauntStatus, startHaunt, stopHaunt } from "../loop.js";
 
@@ -12,7 +12,7 @@ function text(message: string, details?: unknown) {
 
 export function registerHauntTools(
   api: SkillPluginApi,
-  config: AgenticROSConfig,
+  config: SynapseConfig,
   context: SkillContext,
 ): void {
   api.registerTool({

@@ -5,8 +5,8 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import type { AgenticROSConfig } from "@agenticros/core";
-import type { RosTransport } from "@agenticros/core";
+import type { SynapseConfig } from "@corebrum/core";
+import type { RosTransport } from "@corebrum/core";
 import { getHalloweenConfig, type HalloweenConfig } from "./config.js";
 import { gateDepthWithPerson } from "./gate.js";
 import { halloweenLines } from "./lines.js";
@@ -23,7 +23,7 @@ import type { SkillContext } from "./types.js";
 import { createSpeaker, type Speaker } from "./voice.js";
 
 /** Prefer the skillPaths checkout over OpenClaw's scripts-less capture tree. */
-function resolveHalloweenSkillRoot(config: AgenticROSConfig): string | undefined {
+function resolveHalloweenSkillRoot(config: SynapseConfig): string | undefined {
   const paths = config.skillPaths ?? [];
   for (const raw of paths) {
     const root = path.resolve(String(raw));
@@ -31,7 +31,7 @@ function resolveHalloweenSkillRoot(config: AgenticROSConfig): string | undefined
     if (!fs.existsSync(pkgPath)) continue;
     try {
       const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8")) as { name?: string };
-      if (pkg.name === "@agenticros/halloween") return root;
+      if (pkg.name === "@corebrum/halloween") return root;
     } catch {
       // keep scanning
     }
@@ -103,7 +103,7 @@ export function formatHauntStatus(status: HauntStatus = getHauntStatus()): strin
   return `Creep or Treat is hosting. ${distance}. Approach ${speed}. Visitors: ${status.visitorCount}.${vision}${last}`;
 }
 
-function resolveCameraTopic(halloween: HalloweenConfig, config: AgenticROSConfig): string {
+function resolveCameraTopic(halloween: HalloweenConfig, config: SynapseConfig): string {
   const fromSkill = halloween.cameraTopic.trim();
   if (fromSkill) return fromSkill;
   const fromRobot = (config.robot?.cameraTopic ?? "").trim();
@@ -207,7 +207,7 @@ function runTick(
   })();
 }
 
-export function startHaunt(config: AgenticROSConfig, context: SkillContext): string {
+export function startHaunt(config: SynapseConfig, context: SkillContext): string {
   if (loopInterval) return "Creep or Treat is already hosting. The robot will stay put and keep talking.";
 
   const halloween = getHalloweenConfig(config.skills?.halloween);

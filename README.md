@@ -1,9 +1,12 @@
 # Creep or Treat
 
-Stationary Halloween host for [AgenticROS](https://github.com/agenticros/agenticros). The robot stays plugged in and does not drive. A candy bowl sits at its feet. **YOLOv8n** watches the color camera for a real person; RealSense depth then picks the line from distance and approach speed. Furniture and the candy bowl alone do not start a visit.
+This project was previously known as AgenticROS.
+
+
+Stationary Halloween host for [Corebrum Synapse](https://github.com/Corebrum/corebrum-synapse). The robot stays plugged in and does not drive. A candy bowl sits at its feet. **YOLOv8n** watches the color camera for a real person; RealSense depth then picks the line from distance and approach speed. Furniture and the candy bowl alone do not start a visit.
 
 ```bash
-npx agenticros skills install @agenticros/halloween
+npx @corebrum/synapse skills install @corebrum/halloween
 ```
 
 Until the package is published, load it from this directory (see [Install](#install)).
@@ -36,7 +39,7 @@ With `requirePerson` (default **true**), YOLO must see a person before depth can
 
 Still aim the RealSense so torsos are in the color frame and the candy bowl sits low or out of the depth image when you can. That keeps bowl/lens zones honest once a kid is close.
 
-Under OpenClaw, YOLO runs in a short-lived Node child (`scripts/detect-person.mjs` in this skill) so `onnxruntime-node` / `sharp` load from `~/.agenticros/plugin-deploy` (or a sibling AgenticROS checkout) instead of OpenClaw's remapped native admissions. The gateway needs sharp's libvips on `LD_LIBRARY_PATH` (written into `~/.agenticros/gateway-ros.env` by AgenticROS `setup_gateway_plugin.sh`).
+Under OpenClaw, YOLO runs in a short-lived Node child (`scripts/detect-person.mjs` in this skill) so `onnxruntime-node` / `sharp` load from `~/.synapse/plugin-deploy` (or a sibling Corebrum Synapse checkout) instead of OpenClaw's remapped native admissions. The gateway needs sharp's libvips on `LD_LIBRARY_PATH` (written into `~/.synapse/gateway-ros.env` by Corebrum Synapse `setup_gateway_plugin.sh`).
 
 If YOLO cannot load, the skill logs a warning and falls back to depth-only. Set `requirePerson: false` to force that mode.
 
@@ -54,11 +57,11 @@ On a Mac gateway, `espeak-ng` (Homebrew) and `afplay` work. `afplay` is already 
 Build and register this checkout:
 
 ```bash
-cd agenticros-skill-halloween
+cd corebrum-skill-halloween
 npm install
 npm run build
-npx agenticros skills add halloween
-npx agenticros skills sync
+npx @corebrum/synapse skills add halloween
+npx @corebrum/synapse skills sync
 ```
 
 Or point `skillPaths` at this directory and restart the gateway.
@@ -67,9 +70,9 @@ Or point `skillPaths` at this directory and restart the gateway.
 {
   "plugins": {
     "entries": {
-      "agenticros": {
+      "synapse": {
         "config": {
-          "skillPaths": ["/absolute/path/to/agenticros-skill-halloween"],
+          "skillPaths": ["/absolute/path/to/corebrum-skill-halloween"],
           "skills": {
             "halloween": {
               "depthTopic": "/camera/camera/depth/image_rect_raw"

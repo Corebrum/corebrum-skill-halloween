@@ -1,9 +1,9 @@
 /**
- * Minimal skill contract types so this package can build against @agenticros/core.
+ * Minimal skill contract types so this package can build against @corebrum/core.
  * At runtime the plugin passes the real api and context matching this shape.
  */
 
-import type { RosTransport } from "@agenticros/core";
+import type { RosTransport } from "@corebrum/core";
 
 export interface DepthSampleResult {
   distance_m: number;

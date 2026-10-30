@@ -1,10 +1,10 @@
 {
-  "name": "@agenticros/halloween",
+  "name": "@corebrum/halloween",
   "version": "0.2.2",
   "type": "module",
-  "description": "Creep or Treat — a stationary AgenticROS porch host. YOLOv8n person detection plus RealSense depth/approach speed make the robot talk or scream while a candy bowl stays at its feet.",
+  "description": "Creep or Treat — a stationary Corebrum Synapse porch host. YOLOv8n person detection plus RealSense depth/approach speed make the robot talk or scream while a candy bowl stays at its feet.",
   "keywords": [
-    "agenticros",
+    "synapse",
     "ros2",
     "robotics",
     "halloween",
@@ -14,13 +14,13 @@
     "audio",
     "human-interaction"
   ],
-  "homepage": "https://github.com/agenticros/agenticros-skill-halloween#readme",
+  "homepage": "https://github.com/Corebrum/corebrum-skill-halloween#readme",
   "bugs": {
-    "url": "https://github.com/agenticros/agenticros-skill-halloween/issues"
+    "url": "https://github.com/Corebrum/corebrum-skill-halloween/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agenticros/agenticros-skill-halloween.git"
+    "url": "git+https://github.com/Corebrum/corebrum-skill-halloween.git"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -37,7 +37,7 @@
     "test": "tsc && node --test test/*.test.mjs",
     "prepublishOnly": "npm run build"
   },
-  "agenticros": {
+  "synapse": {
     "id": "halloween",
     "displayName": "Creep or Treat",
     "description": "Stationary porch host. Greets only when YOLO sees a person; depth and approach speed pick the line. Candy bowl at the feet. Never drives.",
@@ -72,12 +72,12 @@
     ]
   },
   "dependencies": {
-    "@agenticros/core": "^0.8.14",
+    "@corebrum/core": "^0.8.14",
     "@sinclair/typebox": "^0.34.0"
   },
   "devDependencies": {
-    "@agenticros/object-detection": "file:../agenticros/packages/object-detection",
-    "@agenticros/ros-camera": "file:../agenticros/packages/ros-camera",
+    "@corebrum/object-detection": "file:../synapse/packages/object-detection",
+    "@corebrum/ros-camera": "file:../synapse/packages/ros-camera",
     "@types/node": "^20.17.0",
     "typescript": "^5.7.0"
   },
